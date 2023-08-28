@@ -5,7 +5,7 @@ class Socket {
 	constructor () {}
 
 	connect(username, chatid) {
-		this.socket = io('https://auroraregserver.vercel.app');
+		this.socket = io('https://api-aurorareg.onrender.com');
 		this.socket.emit('online', { username, chatid });
 	}
 
