@@ -19,7 +19,9 @@
 						this.date = dayjs().format('DD MMMM YYYY');
 						this.timeReload();
 						this.renderRoles();
-						this.getReg();
+						if (this.user.roles?.value != 'USER') {
+							this.getReg();
+						}
 						this.isReady = true;
 						this.checkCookies();
 					}).catch((e) => {
@@ -59,17 +61,28 @@
 					this.userslist = true;
 					this.pushes = true;
 					this.members = true;
+					this.posts = true;
+					this.chat = true;
 				}
 
 				if (this.user.roles?.value == 'DEPUTY') {
 					this.reg = true;
                     this.userslist = true;
                     this.members = true;
+                    this.posts = true;
+                    this.chat = true;
 				}
 
                 if (this.user.roles?.value == 'SPECTATOR') {
                     this.reg = true;
                     this.userslist = true;
+                    this.chat = true;
+                    this.posts = true;
+                    this.members = true;
+                }
+
+                if (this.user.roles?.value == 'USER') {
+                	this.posts = true;
                 }
 			},
 			async getReg() {
@@ -120,6 +133,16 @@
 					name: 'allreg'
 				})
 			},
+			goPosts() {
+				this.$router.push({
+					name: 'posts'
+				});
+			},
+			goChat () {
+				this.$router.push({
+					name: 'chats'
+				});
+			},
 			checkCookies() {
 				const allowCookies = this.$cookies.get('allowUser');
 
@@ -154,14 +177,16 @@
 				userslist: false,
 				pushes: false,
 				members: false,
-				isReady: false
+				isReady: false,
+				posts: false,
+				chat: false,
 			}
 		}
 	}
 </script>
 
 <template>
-	<div class="container">
+	<div style="min-height: 70vh !important;" class="container">
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -202,7 +227,7 @@
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">{{ time }}</div>
                             </div>
                             <div class="col-auto me-2">
-                                <i class="fas fa-list fa-2x text-gray-300"></i>
+                                <i class="fas fa-clock fa-2x text-gray-300"></i>
                             </div>
                         </div>
                     </div>
@@ -217,9 +242,9 @@
         </div>
 
         <!-- Content Row -->
-        <div v-if="reg" class="row mt-4">
+        <div class="row mt-4">
 
-            <div class="col-lg-6 mb-4">
+            <div v-if="reg" class="col-lg-6 mb-4">
 
                 <!-- Illustrations -->
                 <div id="regVideos" class="card border-left-info shadow mb-4">
@@ -277,7 +302,7 @@
                                     </div>
                                 </div>
                                 <div class="col-auto me-2">
-                                	<i class="fas fa-file-alt fa-2x text-gray-300"></i>
+                                	<i class="fas fa-user-tie fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
@@ -313,7 +338,43 @@
                                     </div>
                                 </div>
                                 <div class="col-auto me-2">
-                                	<i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                	<i class="fas fa-user-friends fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div @click="goPosts" class="col-xl-6 col-md-6 mb-4" v-if="posts">
+                    <div style="cursor: pointer;" class="card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col ms-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Статьи</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                      Перейти
+                                    </div>
+                                </div>
+                                <div class="col-auto me-2">
+                                	<i class="fas fa-paste fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div @click="goChat" class="col-xl-6 col-md-6 mb-4" v-if="chat">
+                    <div style="cursor: pointer;" class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col ms-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Чат администраторов</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                      Перейти
+                                    </div>
+                                </div>
+                                <div class="col-auto me-2">
+                                	<i class="fas fa-comment-alt fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
@@ -323,9 +384,9 @@
             </div>
         </div>
 
-        <div class="row mt-4" v-if="user.roles?.value == 'USER'">
+        <div class="row my-5" v-if="user.roles?.value == 'USER'">
           <div class="text-center">
-            <b>Чтобы воспользоваться панелью, Вам нужно обладать правами Администратора. Пожалуйста, обратитесь к системному администратору для выдачи прав.</b>
+            <b>Чтобы полноценно воспользоваться панелью, Вам нужно обладать правами Администратора. Пожалуйста, обратитесь к системному администратору для выдачи прав.</b>
           </div>
         </div>
 

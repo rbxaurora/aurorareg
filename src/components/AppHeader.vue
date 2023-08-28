@@ -54,7 +54,7 @@
 
 <template>
 	<!-- Topbar -->
-    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 shadow">
         <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto w-100">
             <div class="row d-sm-flex justify-content-between align-items-center w-100">
@@ -100,14 +100,15 @@
             <div class="topbar-divider d-none d-sm-block"></div>
 
             <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
+            <li class="nav-item dropdown no-arrow col-auto">
                 <div class="btn-group">
                     <button type="button" class="nav-link dropdown-toggle text-right" data-bs-toggle="dropdown" aria-expanded="false">
                         <b class="mr-2 fw-bold d-lg-inline text-gray-600 small">{{ user.usernick }} <br>
                             <span class="badge badge-pill" :class="{
                                 'badge-primary': user.roles?.color == 'primary',
                                 'badge-danger': user.roles?.color == 'danger',
-                                'badge-secondary': user.roles?.color == 'secondary'
+                                'badge-secondary': user.roles?.color == 'secondary',
+                                'badge-info': user.roles?.color == 'info'
                             }">{{ user.roles?.rolename }}</span>
                         </b>
                         <img class="img-profile rounded-circle"

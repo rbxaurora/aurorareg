@@ -149,36 +149,31 @@
             	<div class="card-body">
             		<div>
             			<div v-for="(item, index) in regList" class="card mb-3 mt-2">
-            				<div class="row g-0 d-flex align-items-center">
-            					<div class="col-auto ps-4 pe-2 pt-2 pb-2">
-            						<i class="fas fa-calendar fa-2x text-gray-300"></i>
-            					</div>
-            					<div class="col">
-            						<div class="card-body d-flex justify-content-between align-items-center">
-            							<div class="row row-cols-1 row-cols-sm-1 g-md-2 g-sm-2 row-cols-md-2 row-cols-lg-4 w-100 d-sm-flex align-items-center justify-content-between">
-            								<div class="col">
-            									<h5 class="card-title fw-bold mb-1">{{ item.date }}</h5>
-            									<span class="text-secondary">
-            										Количество участников: {{ item.memberList.length }}
-            									</span>
-            									<span class="text-secondary">
-            										Администратор, составивший отчет: <b>{{ item.adminLogin }}</b>
-            									</span>
-            								</div>
-            								<div class="col-auto">
-            									<button @click="itemReg(index)" data-bs-toggle="modal" data-bs-target="#regModal" class="btn btn-success fw-bold mb-2">
-            										<i class="fas fa-file-alt mr-2"></i>
-            										Открыть
-            									</button>
-	            								<button @click="deleteReg(index)" type="button" class="btn btn-danger fw-bold">
-            										<i class="fas fa-cogs mr-2"></i>
-            										Удалить
-            									</button>
-            								</div>
-            							</div>
-            						</div>
-            					</div>
-            				</div>
+            				<div class="py-2 px-4">
+								<div class="row justify-content-between align-items-center g-sm-2 g-md-2 d-flex card-body">
+									<div class="col-auto">
+										<h5 class="card-title fw-bold mb-1">{{ item.date }}</h5>
+										<span class="text-secondary">
+											Количество участников: {{ item.memberList.length }}
+										</span>
+										<span class="text-secondary">
+											Администратор, составивший отчет: <b>{{ item.adminLogin }}</b>
+										</span>
+									</div>
+									<div class="col-auto">
+										<div class="d-flex flex-column flex-sm-row gap-1">
+											<button @click="itemReg(index)" data-bs-toggle="modal" data-bs-target="#regModal" class="btn btn-success fw-bold">
+												<i class="fas fa-book mr-2"></i>
+												Открыть
+											</button>
+											<button @click="deleteReg(index)" type="button" class="btn btn-danger fw-bold">
+												<i class="fas fa-trash-alt mr-2"></i>
+												Удалить
+											</button>
+										</div>
+									</div>
+								</div>
+		    				</div>
             			</div>
             		</div>
             	</div>

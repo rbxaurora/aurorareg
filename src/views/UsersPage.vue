@@ -116,8 +116,8 @@
 		                                            }">{{ item.roles.rolename }}</span>
             								</div>
             								<div v-if="this.user.roles?.value == 'OWNER'" class="col-auto">
-	            								<button @click="goEditUser(item._id)" type="button" class="btn btn-primary">
-            										<i class="fas fa-cogs mr-2"></i>
+	            								<button @click="goEditUser(item._id)" type="button" class="btn btn-primary fw-bold">
+            										<i class="fas fa-pen mr-2"></i>
             										Редактировать
             									</button>
             								</div>

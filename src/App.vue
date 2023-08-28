@@ -1,5 +1,5 @@
 <script>
-  import { RouterView } from 'vue-router'
+  import { RouterView, useRoute } from 'vue-router'
   import AppHeader from './components/AppHeader.vue'
   import FooterPage from './components/FooterPage.vue'
 
@@ -12,19 +12,36 @@
     mounted() {
       window.addEventListener("resize", this.myEventHandler);
       this.width = window.innerWidth;
+      this.checkName();
     },
     unmounted() {
       window.removeEventListener("resize", this.myEventHandler);
       this.width = window.innerWidth;
+      this.checkName();
     },
     methods: {
       myEventHandler() {
         this.width = window.innerWidth;
+      },
+      checkName() {
+        const routeName = this.$route.name;
+
+        if (routeName == 'dashboard' || routeName == 'userslist' || routeName == 'edituser' || routeName == 'registry' || routeName == 'members' || routeName == 'allreg' || routeName == 'newpost' || routeName == 'chats' || routeName == 'chat') {
+          this.show = true;
+        } else {
+          this.show = false;
+        }
       }
     },
     data() {
       return {
         width: 0,
+        show: false,
+      }
+    },
+    watch: {
+      $route () {
+        this.checkName();
       }
     }
   }
@@ -45,7 +62,7 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <app-header v-if="this.$route.name != 'home' && this.$route.name != 'registration'"></app-header>
+                <app-header v-if="show"></app-header>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->

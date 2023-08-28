@@ -13,31 +13,31 @@
         methods: {
             async getUser() {
                 this.isReady = false;
-				let token = this.$cookies.get('authToken');
+                let token = this.$cookies.get('authToken');
 
-				if (token) {
-					await axios.get(`/api/getuser`, {
-						headers: {
-							Authorization: `Bearer ${token}`
-						}
-					}).then((response) => {
-						this.user = response.data;
+                if (token) {
+                    await axios.get(`/api/getuser`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }).then((response) => {
+                        this.user = response.data;
                         this.isReady = true;
-					}).catch(e => {
-						console.log(e)
-						this.leaveAccount();
-					});
-				} else {
-					this.leaveAccount();
-				}
-			},
+                    }).catch(e => {
+                        console.log(e)
+                        this.leaveAccount();
+                    });
+                } else {
+                    this.leaveAccount();
+                }
+            },
             leaveAccount() {
-				this.$cookies.remove('authToken');
+                this.$cookies.remove('authToken');
 
-				this.$router.push({
-					name: 'home'
-				});
-			},
+                this.$router.push({
+                    name: 'home'
+                });
+            },
             goDashboard() {
                 this.$router.push({
                     name: 'dashboard'

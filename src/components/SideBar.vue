@@ -5,6 +5,7 @@
 		methods: {
 			async getUser() {
                 let token = this.$cookies.get('authToken');
+                
 				if (token) {
 					await axios.get(`/api/getuser`, {
 						headers: {
@@ -14,6 +15,7 @@
 						this.user = response.data;
                         this.renderRoles();
 					}).catch(e => {
+                        console.log(e);
 						this.leaveAccount();
 					});
 				} else {
@@ -56,17 +58,28 @@
 					this.userslist = true;
 					this.pushes = true;
                     this.members = true;
+                    this.posts = true;
+                    this.chats = true;
 				}
 
                 if (this.user.roles?.value == 'DEPUTY') {
 					this.reg = true;
                     this.userslist = true;
                     this.members = true;
+                    this.posts = true;
+                    this.chats = true;
 				}
 
                 if (this.user.roles?.value == 'SPECTATOR') {
                     this.reg = true;
                     this.userslist = true;
+                    this.posts = true;
+                    this.chats = true;
+                    this.members = true;
+                }
+
+                if (this.user.roles?.value == 'USER') {
+                    this.posts = true;
                 }
 			}
 		},
@@ -80,7 +93,9 @@
                 reg: false,
 				userslist: false,
 				pushes: false,
-                members: false
+                members: false,
+                posts: false,
+                chats: false,
 			}
 		}
 	}
@@ -90,11 +105,11 @@
 	<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+            <a class="sidebar-brand d-flex align-items-center justify-content-center">
+                <div class="sidebar-brand-icon">
+                    <i class="fab fa-airbnb"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">AURORA REG</div>
+                <div style="user-select: none;" class="sidebar-brand-text mx-3">AURORA REG</div>
             </a>
 
             <!-- Divider -->
@@ -118,7 +133,7 @@
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item" v-if="reg">
                 <button @click="goReg" data-bs-dismiss="offcanvas" class="nav-link collapsed">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-fw fa-list"></i>
                     <span>Реестр сьемок</span>
                 </button>
             </li>
@@ -126,21 +141,33 @@
             <!-- Nav Item - Charts -->
             <li class="nav-item" v-if="userslist">
                 <button data-bs-dismiss="offcanvas" class="nav-link" @click="goUsersList">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-fw fa-user-tie"></i>
                     <span>Список пользователей</span></button>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item" v-if="pushes">
                 <button class="nav-link">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-bell"></i>
                     <span>Центр уведомлений</span></button>
             </li>
 
             <li class="nav-item" v-if="members">
                 <button data-bs-dismiss="offcanvas" @click="goMembers" class="nav-link">
-                    <i class="fas fa-fw fa-calendar"></i>
+                    <i class="fas fa-fw fa-user-friends"></i>
                     <span>База участников</span></button>
+            </li>
+
+            <li class="nav-item" v-if="posts">
+                <button data-bs-dismiss="offcanvas" @click="() => { this.$router.push({ name: 'posts' }) }" class="nav-link">
+                    <i class="fas fa-fw fa-paste"></i>
+                    <span>Статьи</span></button>
+            </li>
+
+            <li class="nav-item" v-if="chats">
+                <button data-bs-dismiss="offcanvas" @click="() => { this.$router.push({ name: 'chats' }) }" class="nav-link">
+                    <i class="fas fa-fw fa-comment-alt"></i>
+                    <span>Чат администраторов</span></button>
             </li>
         </ul>
 </template>

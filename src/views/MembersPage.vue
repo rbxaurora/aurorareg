@@ -71,6 +71,9 @@
 					}
 				}).then((response) => {
 					this.getUser();
+					this.name = null;
+					this.id = null;
+					this.roblox = null;
 				}).catch((e) => {
 					console.log(e);
 				});
@@ -134,9 +137,9 @@
         	</div>
             <div class="col-auto">
             	<button data-bs-toggle="modal" data-bs-target="#addModal" @click="showAddModal" class="btn btn-primary fw-bold">
-            	<i class="fas fa-list"></i>
-            	Добавить
-            </button>
+	            	<i class="fas fa-list"></i>
+	            	Добавить
+	            </button>
             </div>
         </div>
 
@@ -154,15 +157,15 @@
             						<img src="https://i.ibb.co/M1n3Q59/undraw-profile.jpg" alt="" width="64">
             					</div>
             					<div class="col">
-            						<div class="card-body d-flex justify-content-between align-items-center">
-            							<div class="row row-cols-1 row-cols-sm-1 g-md-2 g-sm-2 row-cols-md-2 row-cols-lg-4 w-100 d-sm-flex align-items-center justify-content-between">
+            						<div class="card-body justify-content-between align-items-center">
+            							<div class="row g-2 align-items-center justify-content-between">
             								<div class="col">
             									<h5 class="card-title fw-bold mb-1">{{ item.name }}</h5>
             									<span class="text-secondary">[{{ item.id }}] - <b>{{ item.roblox }}</b></span>
             								</div>
             								<div class="col-auto">
-	            								<button @click="deleteMember(item._id)" type="button" class="btn btn-danger fw-bold">
-            										<i class="fas fa-cogs mr-2"></i>
+	            								<button v-if="user.roles?.value != 'SPECTATOR' && user.roles?.value != 'USER'" @click="deleteMember(item._id)" type="button" class="btn btn-danger fw-bold">
+            										<i class="fas fa-trash-alt mr-2"></i>
             										Удалить
             									</button>
             								</div>

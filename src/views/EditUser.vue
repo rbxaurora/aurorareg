@@ -62,17 +62,7 @@
                 });
             },
 			async saveUser() {
-                const cookies = document.cookie.split(`;`);
-                let token;
-                for (let i = 0; i < cookies.length; i++) {
-                    let cookie = cookies[i];
-                    let eqPos = cookie.indexOf(`=`);
-                    let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-
-                    if (name == 'authToken') {
-                        token = cookie.substr(eqPos+1);
-                    }
-                }
+                const token = this.$cookies.get('authToken');
 
 				if (this.userPasssEdit == this.userPassEdit) {
 					await axios.post(`/api/saveuser`, {
