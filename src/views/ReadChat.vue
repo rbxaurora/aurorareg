@@ -84,6 +84,8 @@
 				const chatid = this.$route.params.chatid;
 				const date = dayjs().format('DD.MM HH:mm');
 
+				this.message = '';
+
 				return Socket.sendMessage(msg, chatid, from, date);
 			},
 			scrollChat () {
