@@ -1,5 +1,5 @@
 import axios from 'axios';
-axios.defaults.baseURL = 'https://auroraregserver.vercel.app';
+axios.defaults.baseURL = 'https://api-aurorareg.onrender.com';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
