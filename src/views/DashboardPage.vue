@@ -2,6 +2,8 @@
 	import axios from 'axios'
 	import dayjs from 'dayjs'
 	import * as bootstrap from 'bootstrap'
+	import { initializeApp } from "firebase/app";
+	import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 
 	export default {
 		methods: {
@@ -20,6 +22,7 @@
 						this.timeReload();
 						this.renderRoles();
 						if (this.user.roles?.value != 'USER') {
+							this.firebaseConnect();
 							this.getReg();
 						}
 						this.isReady = true;
@@ -31,6 +34,38 @@
 				} else {
 					this.leaveAccount();
 				}
+			},
+			firebaseConnect() {
+				const firebaseConfig = {
+					apiKey: "AIzaSyD_BmQLQocC6DdFWjVHnKof5BJ4DjhHDqQ",
+					authDomain: "aurorareg-b787f.firebaseapp.com",
+					projectId: "aurorareg-b787f",
+					storageBucket: "aurorareg-b787f.appspot.com",
+					messagingSenderId: "1053648640246",
+					appId: "1:1053648640246:web:6802b37a39d4ff5d9b34d7",
+					measurementId: "G-CYNFWPLLSS"
+				};
+
+				const app = initializeApp(firebaseConfig);
+
+				const messaging = getMessaging();
+				onMessage(messaging, (payload) => {
+				    console.log('Message received. ', payload);
+				});
+				getToken(messaging, { vapidKey: 'BJK8gnRfhlfQFyjAdpB6rH95__olxiy96f_zh3almEIQsuUsR21uUvphLA28Ea8P_Kmaj4zM3fdd_JqR9xECeF0' }).then(async (currentToken) => {
+				  if (!currentToken) {
+				  	this.firebaseErr = true;
+				  	return console.error('Firebase Error: No registration token available. Request permission to generate one.');
+				  }
+
+				  await axios.post('/msg/regtoken', {
+				  	token: currentToken,
+				  	userid: this.user._id
+				  });
+				}).catch((err) => {
+					this.firebaseErr = true;
+				    console.log('An error occurred while retrieving token. ', err);
+				});
 			},
 			goUsersPage () {
 				this.$router.push({
@@ -180,6 +215,7 @@
 				isReady: false,
 				posts: false,
 				chat: false,
+				firebaseErr: false,
 			}
 		}
 	}
@@ -198,6 +234,18 @@
         <!-- Content Row -->
         <div v-if="isReady" class="row">
 
+        	<div v-if="firebaseErr" class="card border-left-warning shadow w-100 py-2 mb-4 mx-2">
+        		<div class="card-body">
+        			<div class="row no-gutters align-items-center">
+        				<div class="col-auto ms-2">
+        					<i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+        				</div>
+        				<div class="col me-2 ms-4">
+        					<div class="text-xs font-weight-bold text-uppercase text-gray-600">Возникла проблема с разрешением на получение уведомлений. Для полноценного использования панели управления AURORA REG Вы должны разрешить получение уведомлений. Это необходимо для получения новых уведомлений из служебных чатов и новых входящих анкет.</div>
+        				</div>
+        			</div>
+        		</div>
+        	</div>
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">

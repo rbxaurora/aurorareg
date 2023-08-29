@@ -167,7 +167,7 @@
             <li class="nav-item" v-if="chats">
                 <button data-bs-dismiss="offcanvas" @click="() => { this.$router.push({ name: 'chats' }) }" class="nav-link">
                     <i class="fas fa-fw fa-comment-alt"></i>
-                    <span>Чат администраторов</span></button>
+                    <span>Чат админист.</span></button>
             </li>
         </ul>
 </template>

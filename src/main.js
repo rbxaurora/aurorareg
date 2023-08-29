@@ -1,5 +1,5 @@
 import axios from 'axios';
-axios.defaults.baseURL = 'https://api-aurorareg.onrender.com';
+axios.defaults.baseURL = 'http://localhost:3005';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';

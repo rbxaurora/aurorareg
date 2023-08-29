@@ -5,7 +5,7 @@ class Socket {
 	constructor () {}
 
 	connect(username, chatid) {
-		this.socket = io('https://api-aurorareg.onrender.com');
+		this.socket = io('http://localhost:3005');
 		this.socket.emit('online', { username, chatid });
 	}
 

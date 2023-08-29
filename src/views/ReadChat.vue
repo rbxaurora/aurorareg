@@ -78,15 +78,20 @@
 					console.log(err);
 				})
 			},
-			sendMessage() {
+			async sendMessage() {
 				const msg = this.message;
 				const from = this.user.username;
 				const chatid = this.$route.params.chatid;
 				const date = dayjs().format('DD.MM HH:mm');
 
+				Socket.sendMessage(msg, chatid, from, date);
 				this.message = '';
 
-				return Socket.sendMessage(msg, chatid, from, date);
+				return await axios.post(`/msg/sendnotifchat`, {
+					msg,
+					chatid,
+					from
+				});
 			},
 			scrollChat () {
 				setTimeout(() => {
@@ -180,7 +185,7 @@
 						          <div class="card-footer text-muted bg-light d-flex justify-content-start align-items-center p-3">
 						            <img src="https://i.ibb.co/tpp2jSJ/undraw-profile-1.png"
 						              alt="avatar 3" style="width: 50px; height: 100%;">
-						            <input type="text" v-model="message" class="form-control ms-3 form-control-lg" id="exampleFormControlInput1"
+						            <input type="text" autocomplete="off" v-model="message" class="form-control ms-3 form-control-lg" id="exampleFormControlInput1"
 						              placeholder="Сообщение">
 						            <a class="ms-4 text-muted" href="#!"><i class="fas fa-paperclip"></i></a>
 						            <button type="button" @click="sendMessage" class="mx-3 btn btn-primary" :disabled="!message"><i class="fas fa-paper-plane"></i></button>
